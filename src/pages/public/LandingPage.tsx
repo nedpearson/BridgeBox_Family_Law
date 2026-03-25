@@ -36,10 +36,10 @@ export default function LandingPage() {
             </span>
           </div>
           <div className="flex items-center gap-6">
-            <Link to="/app" className="text-sm font-semibold text-slate-600 hover:text-bridgebox-600 transition-colors hidden sm:block">
+            <Link to="/login" className="text-sm font-semibold text-slate-600 hover:text-bridgebox-600 transition-colors hidden sm:block">
               Client Portal
             </Link>
-            <Link to="/app" className="relative inline-flex h-10 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-bridgebox-400 focus:ring-offset-2 focus:ring-offset-slate-50 group">
+            <Link to="/login" className="relative inline-flex h-10 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-bridgebox-400 focus:ring-offset-2 focus:ring-offset-slate-50 group">
               <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#38BDF8_50%,#E2E8F0_100%)]" />
               <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-bold text-white backdrop-blur-3xl group-hover:bg-slate-800 transition-colors">
                 Access Command Center
@@ -97,7 +97,7 @@ export default function LandingPage() {
               transition={{ delay: 0.2 }}
               className="mt-10 flex flex-col sm:flex-row justify-center gap-4"
             >
-              <Link to="/app" className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-bridgebox-600 hover:bg-bridgebox-500 shadow-[0_0_40px_rgba(2,132,199,0.4)] transform hover:-translate-y-1 hover:scale-105 transition-all duration-300">
+              <Link to="/login" className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-bridgebox-600 hover:bg-bridgebox-500 shadow-[0_0_40px_rgba(2,132,199,0.4)] transform hover:-translate-y-1 hover:scale-105 transition-all duration-300">
                 Launch Platform <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
               <a href="#features" className="inline-flex items-center justify-center px-8 py-4 border border-slate-700/50 text-lg font-bold rounded-xl text-slate-300 bg-slate-800/40 hover:bg-slate-800 border-t-slate-600/50 shadow-inner backdrop-blur-md transition-all duration-300 hover:-translate-y-1">
@@ -251,7 +251,7 @@ export default function LandingPage() {
               variants={fadeUp}
               className="mt-10"
             >
-              <Link to="/app" className="inline-flex items-center justify-center px-10 py-5 border border-transparent text-xl font-bold rounded-xl text-white bg-gradient-to-r from-bridgebox-600 to-bridgebox-500 hover:from-bridgebox-500 hover:to-bridgebox-400 shadow-[0_10px_40px_rgba(2,132,199,0.5)] transform hover:-translate-y-1 transition-all">
+              <Link to="/login" className="inline-flex items-center justify-center px-10 py-5 border border-transparent text-xl font-bold rounded-xl text-white bg-gradient-to-r from-bridgebox-600 to-bridgebox-500 hover:from-bridgebox-500 hover:to-bridgebox-400 shadow-[0_10px_40px_rgba(2,132,199,0.5)] transform hover:-translate-y-1 transition-all">
                 Access the AI Sandbox <ArrowRight className="ml-2 w-6 h-6" />
               </Link>
             </motion.div>
