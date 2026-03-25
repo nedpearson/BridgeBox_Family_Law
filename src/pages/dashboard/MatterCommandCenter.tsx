@@ -56,6 +56,7 @@ export default function MatterCommandCenter() {
         </div>
         <div className="flex gap-2">
           <button onClick={() => setIsShareModalOpen(true)} className="px-4 py-2 border rounded-md text-sm font-semibold bg-white hover:bg-slate-50 text-slate-700 shadow-sm flex items-center"><Share className="w-4 h-4 mr-2 text-slate-400" /> Share with OC</button>
+          <button onClick={() => navigate(`/app/matter/${matter.id}/assets`)} className="px-4 py-2 border rounded-md text-sm font-semibold bg-white hover:bg-emerald-50 text-emerald-700 border-emerald-200 shadow-sm">Balance Sheet</button>
           <button onClick={() => navigate(`/app/matter/${matter.id}/forms`)} className="px-4 py-2 border rounded-md text-sm font-semibold bg-white hover:bg-bridgebox-50 text-bridgebox-700 border-bridgebox-200 shadow-sm">AI Forms</button>
           <button onClick={() => navigate('/app/evidence')} className="px-4 py-2 border rounded-md text-sm font-semibold bg-white hover:bg-slate-50 text-slate-700 shadow-sm">Upload Evidence</button>
           <button onClick={() => navigate(`/app/matter/${matter.id}/packet`)} className="px-4 py-2 bg-slate-900 text-white rounded-md text-sm font-semibold hover:bg-slate-800 shadow-md">Generate Report</button>

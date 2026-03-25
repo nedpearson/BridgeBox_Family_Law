@@ -12,8 +12,8 @@ import PacketBuilder from './pages/packet-builder/PacketBuilder';
 import RequestManager from './pages/collaborator/RequestManager';
 import CollaboratorPortal from './pages/collaborator/CollaboratorPortal';
 import FormsEngine from './pages/forms/FormsEngine';
-
-const Settings = () => <div className="p-6">Settings & Rules Engine</div>;
+import AssetDivisionEngine from './pages/assets/AssetDivisionEngine';
+import FirmSettings from './pages/settings/FirmSettings';
 
 function App() {
   return (
@@ -30,11 +30,12 @@ function App() {
           <Route path="matter/:id" element={<MatterCommandCenter />} />
           <Route path="matter/:id/packet" element={<PacketBuilder />} />
           <Route path="matter/:id/forms" element={<FormsEngine />} />
+          <Route path="matter/:id/assets" element={<AssetDivisionEngine />} />
           <Route path="evidence" element={<EvidenceIntake />} />
           <Route path="requests" element={<RequestManager />} />
           <Route path="chronology" element={<ChronologyEngine />} />
           <Route path="financials" element={<FinancialForensics />} />
-          <Route path="settings" element={<Settings />} />
+          <Route path="settings" element={<FirmSettings />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -8,7 +8,7 @@ export default function ChronologyEngine() {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
-  const [activeView, setActiveView] = useState<'timeline' | 'exchanges'>('timeline');
+  const [activeView, setActiveView] = useState<'timeline' | 'exchanges' | 'questions'>('timeline');
 
   useEffect(() => {
     async function fetchChronology() {
@@ -47,6 +47,9 @@ export default function ChronologyEngine() {
       <div className="flex bg-gray-100 p-1 rounded-lg w-fit">
           <button onClick={() => setActiveView('timeline')} className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeView === 'timeline' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}>Verified Timeline</button>
           <button onClick={() => setActiveView('exchanges')} className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeView === 'exchanges' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}>Custody Exchange GPS Logs</button>
+          <button onClick={() => setActiveView('questions')} className={`px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center ${activeView === 'questions' ? 'bg-bridgebox-50 text-bridgebox-700 shadow-sm border border-bridgebox-200' : 'text-gray-500 hover:text-gray-900'}`}>
+            Cross-Exam Builder
+          </button>
       </div>
 
       <div className="flex gap-8">
@@ -150,6 +153,56 @@ export default function ChronologyEngine() {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {activeView === 'questions' && (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex-1">
+          <div className="p-6 border-b bg-bridgebox-50 flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-bridgebox-900 font-display">AI Cross-Examination Script Builder</h2>
+              <p className="text-sm text-bridgebox-700 mt-1">Automatically generates "Hostile Witness" questioning tracks rooted directly in verified timeline anomalies.</p>
+            </div>
+            <button className="px-4 py-2 bg-bridgebox-600 text-white rounded-md text-sm font-semibold hover:bg-bridgebox-700">Export Script PDF</button>
+          </div>
+          <div className="p-8 space-y-8">
+            <div>
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 border-b pb-2">Topic: SoberLink Compliance Failures</h3>
+              <div className="space-y-4">
+                <div className="bg-gray-50 p-4 rounded-lg flex items-start gap-4 border border-gray-200">
+                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold leading-none mt-0.5">Q</span>
+                  <div>
+                    <p className="text-gray-900 font-medium font-serif leading-relaxed text-lg">"Isn't it true that on March 15th, 2026 at 5:02 PM, you missed your court-ordered SoberLink BAC screening?"</p>
+                    <div className="mt-3 flex items-center gap-2">
+                       <Badge variant="outline" className="bg-white text-xs text-gray-500 border-gray-300">Target Exhibit: SL-03-15-26.pdf</Badge>
+                       <p className="text-xs text-red-500 font-semibold italic">Expected Response: Deny or Deflect</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg flex items-start gap-4 border border-gray-200 ml-8">
+                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold leading-none mt-0.5">Q</span>
+                  <div>
+                    <p className="text-gray-900 font-medium font-serif leading-relaxed text-lg">"Are you aware that your SoberLink device logs a localized GPS ping whenever a test is requested but ignored?"</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4 border-b pb-2 mt-8">Topic: Hostile Co-Parenting (OurFamilyWizard)</h3>
+              <div className="space-y-4">
+                <div className="bg-gray-50 p-4 rounded-lg flex items-start gap-4 border border-gray-200">
+                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-900 text-white text-xs font-bold leading-none mt-0.5">Q</span>
+                  <div>
+                    <p className="text-gray-900 font-medium font-serif leading-relaxed text-lg">"Did you send a message through OurFamilyWizard on March 10th demanding a custody exchange change with only 3 hours notice?"</p>
+                    <div className="mt-3 flex items-center gap-2">
+                       <Badge variant="outline" className="bg-white text-xs text-gray-500 border-gray-300">Target Exhibit: OFW-031026-Thread.pdf</Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
       </div>
