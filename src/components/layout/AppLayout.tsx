@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import CommandPalette from './CommandPalette';
+import AlertsPopover from './AlertsPopover';
 import { 
   Building2, 
   Scale, 
@@ -119,12 +120,7 @@ export default function AppLayout() {
             <button className="text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors">
               Help
             </button>
-            <div className="relative">
-              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-              <button className="text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors">
-                Alerts
-              </button>
-            </div>
+            <AlertsPopover />
           </div>
         </header>
 
