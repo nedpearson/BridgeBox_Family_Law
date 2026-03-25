@@ -9,6 +9,8 @@ import EvidenceIntake from './pages/evidence/EvidenceIntake';
 import ChronologyEngine from './pages/chronology/ChronologyEngine';
 import FinancialForensics from './pages/financials/FinancialForensics';
 import PacketBuilder from './pages/packet-builder/PacketBuilder';
+import RequestManager from './pages/collaborator/RequestManager';
+import CollaboratorPortal from './pages/collaborator/CollaboratorPortal';
 
 const Settings = () => <div className="p-6">Settings & Rules Engine</div>;
 
@@ -16,8 +18,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public Routes */}
+        {/* Public / External Routes */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/portal/:requestId" element={<CollaboratorPortal />} />
         
         {/* Authenticated App Routes */}
         <Route path="/app" element={<AppLayout />}>
@@ -26,6 +29,7 @@ function App() {
           <Route path="matter/:id" element={<MatterCommandCenter />} />
           <Route path="matter/:id/packet" element={<PacketBuilder />} />
           <Route path="evidence" element={<EvidenceIntake />} />
+          <Route path="requests" element={<RequestManager />} />
           <Route path="chronology" element={<ChronologyEngine />} />
           <Route path="financials" element={<FinancialForensics />} />
           <Route path="settings" element={<Settings />} />

@@ -7,6 +7,7 @@ import {
   Clock, 
   DollarSign, 
   Settings,
+  Share2,
   Search,
   Command,
   X
@@ -16,6 +17,7 @@ import { supabase } from '../../lib/supabase';
 const navigation = [
   { name: 'Portfolio', href: '/app/portfolio', icon: Building2 },
   { name: 'Evidence', href: '/app/evidence', icon: Files },
+  { name: 'Requests', href: '/app/requests', icon: Share2 },
   { name: 'Chronology', href: '/app/chronology', icon: Clock },
   { name: 'Financials', href: '/app/financials', icon: DollarSign },
   { name: 'Settings', href: '/app/settings', icon: Settings },
