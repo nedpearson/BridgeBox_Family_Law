@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { Scale, Clock, ShieldAlert, DollarSign, Activity, LineChart, Share, X, ShieldCheck, Copy } from 'lucide-react';
+import { Scale, Clock, ShieldAlert, DollarSign, Activity, LineChart, Share, X, ShieldCheck, Copy, MonitorPlay } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export default function MatterCommandCenter() {
@@ -60,7 +60,10 @@ export default function MatterCommandCenter() {
           <button onClick={() => navigate(`/app/matter/${matter.id}/evaluations`)} className="px-4 py-2 border rounded-md text-sm font-semibold bg-white hover:bg-indigo-50 text-indigo-700 border-indigo-200 shadow-sm">Evaluations</button>
           <button onClick={() => navigate(`/app/matter/${matter.id}/forms`)} className="px-4 py-2 border rounded-md text-sm font-semibold bg-white hover:bg-bridgebox-50 text-bridgebox-700 border-bridgebox-200 shadow-sm">AI Forms</button>
           <button onClick={() => navigate('/app/evidence')} className="px-4 py-2 border rounded-md text-sm font-semibold bg-white hover:bg-slate-50 text-slate-700 shadow-sm">Logs</button>
-          <button onClick={() => navigate(`/app/matter/${matter.id}/packet`)} className="px-4 py-2 bg-slate-900 text-white rounded-md text-sm font-semibold hover:bg-slate-800 shadow-md">Export PDF</button>
+          <button onClick={() => navigate(`/present/${matter.id}`)} className="px-4 py-2 bg-slate-950 text-white rounded-md text-sm font-semibold hover:bg-slate-800 shadow-md flex items-center shadow-slate-900/50">
+             <MonitorPlay className="w-4 h-4 mr-2" /> Present
+          </button>
+          <button onClick={() => navigate(`/app/matter/${matter.id}/packet`)} className="px-4 py-2 bg-bridgebox-600 text-white rounded-md text-sm font-semibold hover:bg-bridgebox-700 shadow-md">Export PDF</button>
         </div>
       </div>
 

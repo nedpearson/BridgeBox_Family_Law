@@ -22,6 +22,7 @@ import EvaluationEngine from './pages/evaluations/EvaluationEngine';
 import SuperAdminDashboard from './pages/admin/SuperAdminDashboard';
 import IntegrationsMarketplace from './pages/integrations/IntegrationsMarketplace';
 import IngestionPipeline from './pages/documents/IngestionPipeline';
+import PresentationMode from './pages/presentation/PresentationMode';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/m/:token" element={<MobileIntake />} />
         <Route path="/portal/:requestId" element={<CollaboratorPortal />} />
+        <Route path="/present/:id" element={<PresentationMode />} />
         
         {/* Authenticated App Routes */}
         <Route path="/app" element={<AppLayout />}>
