@@ -18,11 +18,13 @@ import {
   Calendar,
   Users,
   Plug,
-  Sparkles
+  Sparkles,
+  MessageSquare
 } from 'lucide-react';
 
 const navigation = [
   { name: 'Portfolio', href: '/app/portfolio', icon: Building2 },
+  { name: 'Messages', href: '/app/messages', icon: MessageSquare },
   { name: 'Evidence', href: '/app/evidence', icon: Files },
   { name: 'Requests', href: '/app/requests', icon: Share2 },
   { name: 'Chronology', href: '/app/chronology', icon: Clock },

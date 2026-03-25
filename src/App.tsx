@@ -23,6 +23,7 @@ import SuperAdminDashboard from './pages/admin/SuperAdminDashboard';
 import IntegrationsMarketplace from './pages/integrations/IntegrationsMarketplace';
 import IngestionPipeline from './pages/documents/IngestionPipeline';
 import PresentationMode from './pages/presentation/PresentationMode';
+import SecureMessages from './pages/messages/SecureMessages';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="matter/:id/assets" element={<AssetDivisionEngine />} />
           <Route path="matter/:id/evaluations" element={<EvaluationEngine />} />
           <Route path="evidence" element={<EvidenceIntake />} />
+          <Route path="messages" element={<SecureMessages />} />
           <Route path="requests" element={<RequestManager />} />
           <Route path="chronology" element={<ChronologyEngine />} />
           <Route path="financials" element={<FinancialForensics />} />
