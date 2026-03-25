@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
-import { Plug, CheckCircle2, AlertCircle, ArrowRight, Server, Globe2, Activity, Settings2, ShieldCheck, HelpCircle } from 'lucide-react';
+import { Plug, CheckCircle2, ArrowRight, Server, Globe2, Activity, Settings2, ShieldCheck, HelpCircle, Loader2 } from 'lucide-react';
+import { 
+  connectQuickBooksOnline, 
+  provisionQuickBooksDesktopXML, 
+  syncClioPracticeManagement, 
+  registerOurFamilyWizard, 
+  connectSoberLinkTelemetry 
+} from '../../lib/api-adapters';
 
 const INTEGRATIONS = [
   {
@@ -62,8 +69,30 @@ const INTEGRATIONS = [
 
 export default function IntegrationsMarketplace() {
   const [activeTab, setActiveTab] = useState<'all' | 'connected' | 'accounting'>('all');
+  const [integrationsState, setIntegrationsState] = useState(INTEGRATIONS);
+  const [loadingApp, setLoadingApp] = useState<string | null>(null);
 
-  const filteredIntegrations = INTEGRATIONS.filter(integration => {
+  const handleConnect = async (appId: string) => {
+    setLoadingApp(appId);
+    
+    try {
+      if (appId === 'qbo') await connectQuickBooksOnline();
+      if (appId === 'qbd') await provisionQuickBooksDesktopXML();
+      if (appId === 'clio') await syncClioPracticeManagement();
+      if (appId === 'ofw') await registerOurFamilyWizard();
+      if (appId === 'soberlink') await connectSoberLinkTelemetry();
+
+      setIntegrationsState(prev => prev.map(app => 
+        app.id === appId ? { ...app, status: 'connected', lastSync: 'Just now' } : app
+      ));
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoadingApp(null);
+    }
+  };
+
+  const filteredIntegrations = integrationsState.filter(integration => {
     if (activeTab === 'connected') return integration.status === 'connected';
     if (activeTab === 'accounting') return integration.type.includes('Accounting');
     return true;
@@ -142,13 +171,21 @@ export default function IntegrationsMarketplace() {
                   <span className="text-xs font-medium text-slate-700">{app.lastSync}</span>
                 </div>
                 
-                <button className={`inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-bold transition-colors ${
+                <button 
+                  onClick={() => handleConnect(app.id)}
+                  disabled={loadingApp === app.id || app.status === 'connected'}
+                  className={`inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-bold transition-all ${
                   app.status === 'connected' 
-                  ? 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200' 
-                  : 'bg-bridgebox-600 hover:bg-bridgebox-700 text-white shadow-sm'
+                  ? 'bg-slate-50 text-slate-400 border border-slate-200 cursor-not-allowed' 
+                  : 'bg-bridgebox-600 hover:bg-bridgebox-700 text-white shadow-sm active:scale-95'
                 }`}>
-                  {app.status === 'connected' ? 'Configure' : 'Connect'} 
-                  {app.status !== 'connected' && <ArrowRight className="w-4 h-4 ml-1.5" />}
+                  {loadingApp === app.id ? (
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Connecting</>
+                  ) : app.status === 'connected' ? (
+                    'Configured'
+                  ) : (
+                    <>'Connect' <ArrowRight className="w-4 h-4 ml-1.5" /></>
+                  )} 
                 </button>
               </div>
             </CardContent>
