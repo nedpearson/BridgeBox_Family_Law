@@ -21,6 +21,7 @@ import ExpertRoster from './pages/experts/ExpertRoster';
 import EvaluationEngine from './pages/evaluations/EvaluationEngine';
 import SuperAdminDashboard from './pages/admin/SuperAdminDashboard';
 import IntegrationsMarketplace from './pages/integrations/IntegrationsMarketplace';
+import IngestionPipeline from './pages/documents/IngestionPipeline';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="admin" element={<SuperAdminDashboard />} />
           <Route path="portfolio" element={<PortfolioDashboard />} />
           <Route path="matter/:id" element={<MatterCommandCenter />} />
+          <Route path="matter/:id/pipeline" element={<IngestionPipeline />} />
           <Route path="matter/:id/packet" element={<PacketBuilder />} />
           <Route path="matter/:id/forms" element={<FormsEngine />} />
           <Route path="matter/:id/assets" element={<AssetDivisionEngine />} />

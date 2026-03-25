@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { UploadCloud, FileType, CheckCircle, AlertCircle, X, FileText, BrainCircuit, Smartphone, QrCode } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
@@ -144,7 +145,12 @@ export default function EvidenceIntake() {
             <div className="bg-white border rounded-xl shadow-sm overflow-hidden">
               <div className="px-4 py-3 border-b flex justify-between items-center bg-gray-50">
                 <h3 className="text-sm font-medium text-gray-900">Pending Uploads ({files.length})</h3>
-                <button onClick={uploadFiles} className="text-xs bg-gray-900 text-white px-3 py-1.5 rounded hover:bg-gray-800">Process All</button>
+                <div className="flex gap-2">
+                  <Link to="/app/matter/mrt-882/pipeline" className="text-xs bg-bridgebox-100 text-bridgebox-700 font-bold px-3 py-1.5 rounded hover:bg-bridgebox-200">
+                    <BrainCircuit className="w-3 h-3 inline mr-1" /> OCR Demo Route
+                  </Link>
+                  <button onClick={uploadFiles} className="text-xs bg-gray-900 text-white px-3 py-1.5 rounded hover:bg-gray-800">Process All</button>
+                </div>
               </div>
               <ul className="divide-y divide-gray-100">
                 {files.map((f, i) => (
