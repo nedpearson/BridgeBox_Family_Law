@@ -13,7 +13,8 @@ import {
   X,
   Calendar,
   Users,
-  ShieldAlert
+  ShieldAlert,
+  Plug
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
@@ -25,6 +26,7 @@ const navigation = [
   { name: 'Financials', href: '/app/financials', icon: DollarSign },
   { name: 'Calendar', href: '/app/calendar', icon: Calendar },
   { name: 'Experts', href: '/app/experts', icon: Users },
+  { name: 'Integrations', href: '/app/integrations', icon: Plug },
   { name: 'Settings', href: '/app/settings', icon: Settings },
 ];
 

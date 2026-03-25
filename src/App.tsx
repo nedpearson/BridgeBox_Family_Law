@@ -19,6 +19,7 @@ import FirmCalendar from './pages/calendar/FirmCalendar';
 import ExpertRoster from './pages/experts/ExpertRoster';
 import EvaluationEngine from './pages/evaluations/EvaluationEngine';
 import SuperAdminDashboard from './pages/admin/SuperAdminDashboard';
+import IntegrationsMarketplace from './pages/integrations/IntegrationsMarketplace';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="financials" element={<FinancialForensics />} />
           <Route path="calendar" element={<FirmCalendar />} />
           <Route path="experts" element={<ExpertRoster />} />
+          <Route path="integrations" element={<IntegrationsMarketplace />} />
           <Route path="settings" element={<FirmSettings />} />
         </Route>
       </Routes>
