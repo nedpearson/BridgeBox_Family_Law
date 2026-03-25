@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { Scale, Clock, ShieldAlert, DollarSign, Activity, LineChart } from 'lucide-react';
+import { Scale, Clock, ShieldAlert, DollarSign, Activity, LineChart, Share, X, ShieldCheck, Copy } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export default function MatterCommandCenter() {
@@ -13,6 +13,8 @@ export default function MatterCommandCenter() {
   const [timeline, setTimeline] = useState<any[]>([]);
   const [alerts, setAlerts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     async function fetchMatterDetails() {
@@ -53,8 +55,10 @@ export default function MatterCommandCenter() {
           <p className="text-sm text-gray-500 mt-1">Tenant Sub-ID: {matter.id.split('-')[0]} • Created {new Date(matter.created_at).toLocaleDateString()}</p>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => navigate('/app/evidence')} className="px-4 py-2 border rounded-md text-sm font-medium bg-white hover:bg-gray-50">Upload Evidence</button>
-          <button onClick={() => navigate(`/app/matter/${matter.id}/packet`)} className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800">Generate Report</button>
+          <button onClick={() => setIsShareModalOpen(true)} className="px-4 py-2 border rounded-md text-sm font-semibold bg-white hover:bg-slate-50 text-slate-700 shadow-sm flex items-center"><Share className="w-4 h-4 mr-2 text-slate-400" /> Share with OC</button>
+          <button onClick={() => navigate(`/app/matter/${matter.id}/forms`)} className="px-4 py-2 border rounded-md text-sm font-semibold bg-white hover:bg-bridgebox-50 text-bridgebox-700 border-bridgebox-200 shadow-sm">AI Forms</button>
+          <button onClick={() => navigate('/app/evidence')} className="px-4 py-2 border rounded-md text-sm font-semibold bg-white hover:bg-slate-50 text-slate-700 shadow-sm">Upload Evidence</button>
+          <button onClick={() => navigate(`/app/matter/${matter.id}/packet`)} className="px-4 py-2 bg-slate-900 text-white rounded-md text-sm font-semibold hover:bg-slate-800 shadow-md">Generate Report</button>
         </div>
       </div>
 
@@ -181,6 +185,44 @@ export default function MatterCommandCenter() {
           </Card>
         </div>
       </div>
+
+      {/* Opposing Counsel Share Link Modal */}
+      {isShareModalOpen && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col">
+            <div className="px-6 py-4 border-b flex justify-between items-center bg-slate-50">
+              <h3 className="text-lg font-bold text-slate-900">Secure Disclosure Link</h3>
+              <button onClick={() => setIsShareModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-8 pb-10">
+              <div className="w-16 h-16 bg-bridgebox-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <ShieldCheck className="w-8 h-8 text-bridgebox-600" />
+              </div>
+              <h4 className="text-center font-bold text-xl text-slate-900 mb-2">Opposing Counsel Portal Link</h4>
+              <p className="text-center text-sm text-slate-500 mb-8 max-w-xs mx-auto">
+                Generate a strict, tokenized link allowing external counsel to view *only* explicitly shared discovery exhibits.
+              </p>
+              
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 flex items-center gap-3">
+                <code className="text-sm text-slate-600 flex-1 truncate font-mono">
+                  https://bridgebox.ai/portal/disclosure/vE9xLp2...
+                </code>
+                <button 
+                  onClick={() => {
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }}
+                  className="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-md text-sm font-semibold transition-colors flex items-center"
+                >
+                  {copied ? 'Copied!' : <><Copy className="w-4 h-4 mr-1" /> Copy</>}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -11,6 +11,7 @@ import FinancialForensics from './pages/financials/FinancialForensics';
 import PacketBuilder from './pages/packet-builder/PacketBuilder';
 import RequestManager from './pages/collaborator/RequestManager';
 import CollaboratorPortal from './pages/collaborator/CollaboratorPortal';
+import FormsEngine from './pages/forms/FormsEngine';
 
 const Settings = () => <div className="p-6">Settings & Rules Engine</div>;
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="portfolio" element={<PortfolioDashboard />} />
           <Route path="matter/:id" element={<MatterCommandCenter />} />
           <Route path="matter/:id/packet" element={<PacketBuilder />} />
+          <Route path="matter/:id/forms" element={<FormsEngine />} />
           <Route path="evidence" element={<EvidenceIntake />} />
           <Route path="requests" element={<RequestManager />} />
           <Route path="chronology" element={<ChronologyEngine />} />

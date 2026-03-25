@@ -5,13 +5,19 @@ import { DownloadCloud, ArrowUpRight, ArrowDownRight, Printer, Plus, X, Search, 
 import { supabase } from '../../lib/supabase';
 
 export default function FinancialForensics() {
-  const [activeTab, setActiveTab] = useState<'ledger' | 'petitions' | 'anomalies'>('ledger');
+  const [activeTab, setActiveTab] = useState<'ledger' | 'petitions' | 'anomalies' | 'calculator'>('ledger');
   const [expenses, setExpenses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // Form State
   const [newExpense, setNewExpense] = useState({ date: '', payee: '', category: '', amount: '', is_recoverable: true });
+  
+  // Calculator State
+  const [calcData, setCalcData] = useState({ partyAGross: 12500, partyAHealth: 800, partyBGross: 6200, partyBHealth: 200 });
+  const partyANet = calcData.partyAGross - calcData.partyAHealth;
+  const partyBNet = calcData.partyBGross - calcData.partyBHealth;
+  const estimatedSupport = Math.max(0, (partyANet * 0.30) - (partyBNet * 0.20));
 
   const fetchExpenses = async () => {
     // Hardcoded mock matter ID for global fetch
@@ -80,6 +86,12 @@ export default function FinancialForensics() {
             className={`px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center ${activeTab === 'anomalies' ? 'bg-orange-50 text-orange-700 shadow-sm border border-orange-200' : 'text-gray-500 hover:text-gray-900'}`}
           >
             <ShieldAlert className="w-4 h-4 mr-1.5" /> Ghost Asset Scanner
+          </button>
+          <button 
+            onClick={() => setActiveTab('calculator')}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === 'calculator' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+          >
+            Support Calculator
           </button>
         </div>
       </div>
@@ -205,6 +217,59 @@ export default function FinancialForensics() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'calculator' && (
+        <div className="bg-white rounded-xl shadow-sm border overflow-hidden p-8">
+          <div className="flex items-center justify-between border-b pb-6 mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 font-display">Temporary Support Calculator</h2>
+              <p className="text-sm text-gray-500 mt-1">Simulates generic Pendente Lite alimony offset formula (30% Payor - 20% Payee)</p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm font-medium text-gray-500 uppercase tracking-widest">Est. Monthly Support</p>
+              <p className="text-4xl font-bold text-bridgebox-600">${estimatedSupport.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold text-gray-900 border-b pb-2">Party A (Higher Earner)</h3>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Gross Monthly Income</label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span className="text-gray-500 sm:text-sm">$</span></div>
+                  <input type="number" className="pl-7 block w-full rounded-md border-gray-300 focus:border-bridgebox-500 focus:ring-bridgebox-500" value={calcData.partyAGross} onChange={e => setCalcData({...calcData, partyAGross: Number(e.target.value)})} />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Mandatory Deductions (Health, Union)</label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span className="text-gray-500 sm:text-sm">$</span></div>
+                  <input type="number" className="pl-7 block w-full rounded-md border-gray-300 focus:border-bridgebox-500 focus:ring-bridgebox-500" value={calcData.partyAHealth} onChange={e => setCalcData({...calcData, partyAHealth: Number(e.target.value)})} />
+                </div>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold text-gray-900 border-b pb-2">Party B (Lower Earner)</h3>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Gross Monthly Income</label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span className="text-gray-500 sm:text-sm">$</span></div>
+                  <input type="number" className="pl-7 block w-full rounded-md border-gray-300 focus:border-bridgebox-500 focus:ring-bridgebox-500" value={calcData.partyBGross} onChange={e => setCalcData({...calcData, partyBGross: Number(e.target.value)})} />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Mandatory Deductions (Health, Union)</label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span className="text-gray-500 sm:text-sm">$</span></div>
+                  <input type="number" className="pl-7 block w-full rounded-md border-gray-300 focus:border-bridgebox-500 focus:ring-bridgebox-500" value={calcData.partyBHealth} onChange={e => setCalcData({...calcData, partyBHealth: Number(e.target.value)})} />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

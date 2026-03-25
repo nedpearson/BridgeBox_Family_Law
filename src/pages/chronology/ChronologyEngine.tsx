@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Clock, Filter, Search, FileText, ExternalLink, X } from 'lucide-react';
+import { Badge } from '../../components/ui/Badge';
 import { supabase } from '../../lib/supabase';
 
 export default function ChronologyEngine() {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
+  const [activeView, setActiveView] = useState<'timeline' | 'exchanges'>('timeline');
 
   useEffect(() => {
     async function fetchChronology() {
@@ -41,6 +43,11 @@ export default function ChronologyEngine() {
           </button>
         </div>
       </div>
+      
+      <div className="flex bg-gray-100 p-1 rounded-lg w-fit">
+          <button onClick={() => setActiveView('timeline')} className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeView === 'timeline' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}>Verified Timeline</button>
+          <button onClick={() => setActiveView('exchanges')} className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeView === 'exchanges' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}>Custody Exchange GPS Logs</button>
+      </div>
 
       <div className="flex gap-8">
         <div className="w-64 shrink-0 space-y-6">
@@ -63,7 +70,8 @@ export default function ChronologyEngine() {
           </Card>
         </div>
 
-        <div className="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm p-8 min-h-[500px]">
+        {activeView === 'timeline' && (
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm p-8 min-h-[500px]">
           {loading ? (
             <div className="flex items-center justify-center p-12 text-gray-400 animate-pulse">Loading Chronology Engine...</div>
           ) : (
@@ -103,6 +111,47 @@ export default function ChronologyEngine() {
             </div>
           )}
         </div>
+      )}
+
+      {activeView === 'exchanges' && (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex-1">
+          <div className="p-6 border-b bg-gray-50 flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-gray-900 font-display">Custody Exchange GPS Drop-off Logs</h2>
+              <p className="text-sm text-gray-500 mt-1">Cross-referencing court-ordered exchange times against mobile geofence logs to flag late drop-offs.</p>
+            </div>
+            <Badge variant="warning">3 Late Violations Handled</Badge>
+          </div>
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-white">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Location</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Court Ordered</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Actual GPS Time</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Variance</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100 bg-white">
+              {[
+                { date: '2026-03-22', location: 'Police Station Safe Zone', ordered: '5:00 PM', actual: '5:45 PM', diff: '+45 min', status: 'LATE' },
+                { date: '2026-03-15', location: 'Starbucks (Main St)', ordered: '5:00 PM', actual: '5:02 PM', diff: '+2 min', status: 'ON TIME' },
+                { date: '2026-03-08', location: 'Police Station Safe Zone', ordered: '5:00 PM', actual: '6:10 PM', diff: '+70 min', status: 'LATE' }
+              ].map((row, i) => (
+                <tr key={i} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{row.date}</td>
+                  <td className="px-6 py-4 text-sm text-gray-500">{row.location}</td>
+                  <td className="px-6 py-4 text-sm text-gray-500 font-medium">{row.ordered}</td>
+                  <td className={`px-6 py-4 text-sm font-bold ${row.status === 'LATE' ? 'text-red-600' : 'text-green-600'}`}>{row.actual}</td>
+                  <td className="px-6 py-4 text-sm text-gray-500">{row.diff}</td>
+                  <td className="px-6 py-4"><Badge variant={row.status === 'LATE' ? 'destructive' : 'success'}>{row.status}</Badge></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       </div>
 
       {/* Drill-down Modal Panel Overlay */}
