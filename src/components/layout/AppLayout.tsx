@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import CommandPalette from './CommandPalette';
 import AlertsPopover from './AlertsPopover';
+import CopilotDrawer from '../copilot/CopilotDrawer';
 import { 
   Building2, 
   Scale, 
@@ -14,7 +15,8 @@ import {
   Command,
   Calendar,
   Users,
-  Plug
+  Plug,
+  Sparkles
 } from 'lucide-react';
 
 const navigation = [
@@ -35,6 +37,7 @@ export default function AppLayout() {
   return (
     <div className="flex h-screen bg-gray-50">
       <CommandPalette />
+      <CopilotDrawer />
       
       {/* Sidebar Navigation */}
       <div className="w-64 flex flex-col border-r bg-white shadow-sm shrink-0 z-10">
@@ -117,8 +120,12 @@ export default function AppLayout() {
             </button>
           </div>
           <div className="ml-4 flex items-center gap-4">
-            <button className="text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors">
-              Help
+            <button 
+              onClick={() => window.dispatchEvent(new Event('bridgebox-toggle-copilot'))}
+              className="group flex items-center px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg transition-colors"
+            >
+              <Sparkles className="w-4 h-4 text-indigo-600 mr-2 group-hover:scale-110 transition-transform" />
+              <span className="text-sm font-bold text-indigo-700">Copilot</span>
             </button>
             <AlertsPopover />
           </div>
