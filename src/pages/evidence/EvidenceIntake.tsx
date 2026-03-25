@@ -1,13 +1,20 @@
 import React, { useState, useCallback } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
-import { UploadCloud, FileType, CheckCircle, AlertCircle, X, FileText, BrainCircuit } from 'lucide-react';
+import { UploadCloud, FileType, CheckCircle, AlertCircle, X, FileText, BrainCircuit, Smartphone, QrCode } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { QRCodeSVG } from 'qrcode.react';
 
 export default function EvidenceIntake() {
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [uploadStatus, setUploadStatus] = useState<Record<string, string>>({}); // 'pending', 'uploading', 'success', 'error'
   const [intakeMode, setIntakeMode] = useState<'standard' | 'deposition'>('standard');
+  const [mobileToken, setMobileToken] = useState<string | null>(null);
+
+  const generateMobileSession = () => {
+    const token = Math.random().toString(36).substring(2, 10);
+    setMobileToken(token);
+  };
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -183,6 +190,33 @@ export default function EvidenceIntake() {
                   <option>OurFamilyWizard Export</option>
                 </select>
               </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center"><Smartphone className="w-4 h-4 mr-2" /> Field Intake Portal</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {mobileToken ? (
+                <div className="flex flex-col items-center justify-center p-4 bg-slate-50 border border-bridgebox-200 rounded-lg">
+                  <div className="bg-white p-2 rounded-xl shadow-sm mb-3">
+                    <QRCodeSVG value={`${window.location.origin}/m/${mobileToken}`} size={128} />
+                  </div>
+                  <p className="text-xs text-center font-bold text-bridgebox-700 mb-2">Scan to open Secure Upload</p>
+                  <p className="text-[10px] text-center text-slate-500 break-all bg-slate-200 p-2 rounded-md w-full font-mono font-medium border border-slate-300">
+                    {window.location.origin}/m/{mobileToken}
+                  </p>
+                  <button onClick={() => setMobileToken(null)} className="mt-3 text-xs font-semibold text-slate-400 hover:text-slate-600">Close Session</button>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <p className="text-xs font-medium text-slate-500 mb-4 leading-relaxed">Generate an encrypted QR code session for your client to upload files directly from their camera roll.</p>
+                  <button onClick={generateMobileSession} className="w-full flex items-center justify-center px-4 py-2 bg-bridgebox-600 hover:bg-bridgebox-700 text-white text-sm font-semibold rounded-md shadow-sm transition-colors">
+                    <QrCode className="w-4 h-4 mr-2" /> Generate Pairing Link
+                  </button>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

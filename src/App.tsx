@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './components/layout/AppLayout';
 import LandingPage from './pages/public/LandingPage';
+import MobileIntake from './pages/public/MobileIntake';
 
 // Actual Component Imports
 import PortfolioDashboard from './pages/dashboard/PortfolioDashboard';
@@ -24,6 +25,7 @@ function App() {
       <Routes>
         {/* Public / External Routes */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/m/:token" element={<MobileIntake />} />
         <Route path="/portal/:requestId" element={<CollaboratorPortal />} />
         
         {/* Authenticated App Routes */}
