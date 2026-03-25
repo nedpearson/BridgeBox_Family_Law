@@ -75,9 +75,11 @@ export default function AppLayout() {
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar Navigation */}
       <div className="w-64 flex flex-col border-r bg-white shadow-sm shrink-0">
-        <div className="h-16 flex items-center px-6 border-b">
-          <Scale className="w-6 h-6 text-bridgebox-600 mr-2" />
-          <span className="text-lg font-bold text-gray-900 tracking-tight">Bridgebox</span>
+        <div className="h-16 flex items-center px-6 border-b bg-white">
+          <div className="w-8 h-8 bg-gradient-to-br from-bridgebox-500 to-bridgebox-700 rounded-lg flex items-center justify-center shadow-sm mr-3 shrink-0">
+            <Scale className="w-4 h-4 text-white" />
+          </div>
+          <span className="text-xl font-bold text-slate-900 tracking-tight font-display">Bridgebox</span>
         </div>
         
         <nav className="flex-1 overflow-y-auto p-4 space-y-1">
