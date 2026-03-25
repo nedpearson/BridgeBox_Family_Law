@@ -4,6 +4,7 @@ import CommandPalette from './CommandPalette';
 import AlertsPopover from './AlertsPopover';
 import CopilotDrawer from '../copilot/CopilotDrawer';
 import UserProfileMenu from './UserProfileMenu';
+import BillableTimer from './BillableTimer';
 import { 
   Building2, 
   Scale, 
@@ -114,6 +115,8 @@ export default function AppLayout() {
             </button>
           </div>
           <div className="ml-4 flex items-center gap-4">
+            <BillableTimer />
+            <div className="h-6 w-px bg-slate-200 hidden md:block"></div>
             <button 
               onClick={() => window.dispatchEvent(new Event('bridgebox-toggle-copilot'))}
               className="group flex items-center px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg transition-colors"
