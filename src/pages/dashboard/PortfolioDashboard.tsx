@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { AlertCircle, FileText, Scale, TrendingUp, Filter } from 'lucide-react';
+import { AlertCircle, FileText, Scale, TrendingUp, Filter, Clock } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export default function PortfolioDashboard() {
@@ -76,6 +76,16 @@ export default function PortfolioDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">$0.00</div>
+          </CardContent>
+        </Card>
+        <Card className="border-orange-200 bg-orange-50">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-orange-800">Stale Matters (&gt;30d)</CardTitle>
+            <Clock className="w-4 h-4 text-orange-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-orange-700">1</div>
+            <p className="text-xs text-orange-600 mt-1">Automated sweeper detected inactivity.</p>
           </CardContent>
         </Card>
       </div>

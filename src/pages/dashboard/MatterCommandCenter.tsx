@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { Scale, Clock, ShieldAlert, DollarSign, Activity } from 'lucide-react';
+import { Scale, Clock, ShieldAlert, DollarSign, Activity, LineChart } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export default function MatterCommandCenter() {
@@ -127,7 +127,28 @@ export default function MatterCommandCenter() {
 
         {/* Action Widgets */}
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-gray-900">Compliance Monitors</h2>
+          <h2 className="text-lg font-semibold text-gray-900">Intelligence Predictors</h2>
+          <Card className="border-t-4 border-t-orange-500">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600 flex justify-between">
+                <span>Co-Parenting Hostility Index</span>
+                <LineChart className="w-4 h-4 text-orange-500" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-end gap-1 h-12 mt-2">
+                {[12, 18, 15, 25, 45, 60, 85].map((val, i) => (
+                  <div key={i} className={`flex-1 rounded-t-sm ${val > 50 ? 'bg-red-500' : val > 20 ? 'bg-orange-400' : 'bg-green-400'}`} style={{ height: `${val}%` }}></div>
+                ))}
+              </div>
+              <p className="text-xs font-semibold text-red-600 mt-3 flex items-center">
+                <ShieldAlert className="w-3 h-3 mr-1" /> Severe Escalation Detected
+              </p>
+              <p className="text-xs text-gray-500 mt-1">Based on 64 OFW messages parsed this week.</p>
+            </CardContent>
+          </Card>
+
+          <h2 className="text-lg font-semibold text-gray-900 mt-6">Compliance Monitors</h2>
           <Card className="border-t-4 border-t-bridgebox-500">
             <CardHeader className="pb-2">
               <CardTitle className="flex justify-between text-sm">

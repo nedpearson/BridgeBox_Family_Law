@@ -1,12 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
-import { UploadCloud, FileType, CheckCircle, AlertCircle, X } from 'lucide-react';
+import { UploadCloud, FileType, CheckCircle, AlertCircle, X, FileText, BrainCircuit } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export default function EvidenceIntake() {
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [uploadStatus, setUploadStatus] = useState<Record<string, string>>({}); // 'pending', 'uploading', 'success', 'error'
+  const [intakeMode, setIntakeMode] = useState<'standard' | 'deposition'>('standard');
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -79,12 +80,27 @@ export default function EvidenceIntake() {
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Evidence Intake Module</h1>
-        <p className="text-gray-500 mt-1">Upload raw exports and loose documents. Files are strictly isolated to active matters and immediately passed to the classification pipeline.</p>
+        <h1 className="text-2xl font-bold text-gray-900">Evidence & Transcript Intake</h1>
+        <p className="text-gray-500 mt-1">Upload raw exports and loose documents. Files are strictly isolated to active matters and routed through the selected intelligence pipeline.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2 space-y-6">
+          <div className="flex bg-gray-100 p-1 rounded-lg w-full max-w-sm mb-2">
+            <button 
+              onClick={() => setIntakeMode('standard')}
+              className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center justify-center ${intakeMode === 'standard' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+            >
+              Standard Evidence
+            </button>
+            <button 
+              onClick={() => setIntakeMode('deposition')}
+              className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center justify-center ${intakeMode === 'deposition' ? 'bg-white shadow-sm text-bridgebox-700' : 'text-gray-500 hover:text-gray-900'}`}
+            >
+              <BrainCircuit className="w-4 h-4 mr-1.5" /> Deposition Parser
+            </button>
+          </div>
+
           <div 
             className={`border-2 border-dashed rounded-xl p-12 text-center transition-all ${isDragging ? 'border-bridgebox-500 bg-bridgebox-50 select-none' : 'border-gray-300 hover:border-gray-400 bg-gray-50'}`}
             onDragEnter={handleDrag}
@@ -92,9 +108,19 @@ export default function EvidenceIntake() {
             onDragOver={handleDrag}
             onDrop={handleDrop}
           >
-            <UploadCloud className={`mx-auto h-12 w-12 ${isDragging ? 'text-bridgebox-600 animate-bounce' : 'text-gray-400'}`} />
-            <h3 className="mt-4 text-sm font-medium text-gray-900">Drag and drop raw evidence exports here</h3>
-            <p className="mt-1 text-xs text-gray-500">Supports PDF, PNG, JPG, MSG, and JSON exports from SoberLink or OFW.</p>
+            {intakeMode === 'standard' ? (
+              <UploadCloud className={`mx-auto h-12 w-12 ${isDragging ? 'text-bridgebox-600 animate-bounce' : 'text-gray-400'}`} />
+            ) : (
+              <FileText className={`mx-auto h-12 w-12 ${isDragging ? 'text-bridgebox-600 animate-bounce' : 'text-bridgebox-400'}`} />
+            )}
+            <h3 className="mt-4 text-sm font-medium text-gray-900">
+              {intakeMode === 'standard' ? 'Drag and drop raw evidence exports here' : 'Drop verbatim .txt or .pdf deposition transcripts here'}
+            </h3>
+            <p className="mt-1 text-xs text-gray-500">
+              {intakeMode === 'standard' 
+                ? 'Supports PDF, PNG, JPG, MSG, and JSON exports from SoberLink or OFW.' 
+                : 'The AI will parse Q&A pairs, tag critical admissions, and inject them into the Timeline chronologically.'}
+            </p>
             <label className="mt-6 inline-flex cursor-pointer items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-bridgebox-600 hover:bg-bridgebox-700">
               Browse Files
               <input type="file" className="hidden" multiple onChange={(e) => {

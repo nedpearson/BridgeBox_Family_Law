@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { DownloadCloud, ArrowUpRight, ArrowDownRight, Printer, Plus, X } from 'lucide-react';
+import { DownloadCloud, ArrowUpRight, ArrowDownRight, Printer, Plus, X, Search, AlertTriangle, Eye, ShieldAlert } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export default function FinancialForensics() {
-  const [activeTab, setActiveTab] = useState<'ledger' | 'petitions'>('ledger');
+  const [activeTab, setActiveTab] = useState<'ledger' | 'petitions' | 'anomalies'>('ledger');
   const [expenses, setExpenses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -74,6 +74,12 @@ export default function FinancialForensics() {
             className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === 'petitions' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
           >
             Court Cost Petitions
+          </button>
+          <button 
+            onClick={() => setActiveTab('anomalies')}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center ${activeTab === 'anomalies' ? 'bg-orange-50 text-orange-700 shadow-sm border border-orange-200' : 'text-gray-500 hover:text-gray-900'}`}
+          >
+            <ShieldAlert className="w-4 h-4 mr-1.5" /> Ghost Asset Scanner
           </button>
         </div>
       </div>
@@ -154,6 +160,52 @@ export default function FinancialForensics() {
           <button className="mt-6 px-4 py-2 bg-bridgebox-600 text-white rounded-md text-sm font-medium hover:bg-bridgebox-700 shadow-sm">
             Generate Schedule
           </button>
+        </div>
+      )}
+
+      {activeTab === 'anomalies' && (
+        <div className="space-y-6">
+          <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 flex justify-between items-center">
+            <div>
+              <h3 className="text-lg font-bold text-orange-900 flex items-center"><Search className="w-5 h-5 mr-2" /> Financial Anomaly Scan Complete</h3>
+              <p className="text-orange-700 text-sm mt-1">Found 3 unclassified high-risk transfers from uploaded bank statements.</p>
+            </div>
+            <button className="px-4 py-2 bg-white text-orange-700 border border-orange-200 rounded-md text-sm font-semibold hover:bg-orange-100 shadow-sm">
+              Run Full Bank Sweep
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4">
+            {[
+              { date: '2026-03-01', amount: 50000, desc: 'WIRE TRANSFER TO KRAKEN EXCHANGE', risk: 'High - Undisclosed Crypto', source: 'Chase Checking ...4492' },
+              { date: '2026-02-15', amount: 15000, desc: 'CASH WITHDRAWAL BRANCH 049', risk: 'Medium - Cash Dissipation', source: 'Chase Checking ...4492' },
+              { date: '2026-01-10', amount: -4500, desc: 'LIFESTYLE DEFLATE - RENT PROJECTION', risk: 'Low - Altered Spending', source: 'Amex Platinum ...1004' }
+            ].map((a, i) => (
+              <div key={i} className="bg-white rounded-xl border p-5 flex items-center justify-between shadow-sm hover:border-orange-300 transition-colors">
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 bg-orange-100 p-2 rounded-full">
+                    <AlertTriangle className="w-5 h-5 text-orange-600" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="text-base font-bold text-gray-900">{a.desc}</h4>
+                      <Badge variant="warning">{a.risk}</Badge>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Detected on {new Date(a.date).toLocaleDateString()} from {a.source}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-6">
+                  <div className="text-right">
+                    <div className="text-lg font-bold text-gray-900">${Math.abs(a.amount).toLocaleString()}</div>
+                    <div className="text-xs font-semibold text-gray-400">TRANSACTION</div>
+                  </div>
+                  <button className="text-bridgebox-600 hover:text-bridgebox-800 flex items-center text-sm font-medium">
+                    <Eye className="w-4 h-4 mr-1" /> Inspect Source
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

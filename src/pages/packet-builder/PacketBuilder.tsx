@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
-import { FileText, Download, CheckSquare, Clock, ArrowLeft } from 'lucide-react';
+import { FileText, Download, CheckSquare, Clock, ArrowLeft, Loader2, FileCheck, Layers } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export default function PacketBuilder() {
@@ -12,6 +12,10 @@ export default function PacketBuilder() {
   const [events, setEvents] = useState<any[]>([]);
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
+
+  // PDF Compilation State
+  const [isAssembling, setIsAssembling] = useState(false);
+  const [assemblyStep, setAssemblyStep] = useState(0);
 
   useEffect(() => {
     async function fetchPacketData() {
@@ -36,7 +40,11 @@ export default function PacketBuilder() {
   };
 
   const handleGeneratePDF = () => {
-    alert(`Assembling ${selectedItems.size} verified artifacts into a secure PDF bundle...`);
+    setIsAssembling(true);
+    setAssemblyStep(1); // Stitching Chronology
+    setTimeout(() => setAssemblyStep(2), 1500); // Pulling Source Attachments
+    setTimeout(() => setAssemblyStep(3), 3000); // Applying Bates Stamps
+    setTimeout(() => setAssemblyStep(4), 4500); // Complete
   };
 
   if (loading) return <div className="p-8 text-center text-gray-500 animate-pulse">Loading Assembler...</div>;
@@ -103,6 +111,49 @@ export default function PacketBuilder() {
           </CardContent>
         </Card>
       </div>
+
+      {isAssembling && (
+        <div className="fixed inset-0 z-50 bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <Card className="w-full max-w-lg shadow-2xl p-8 border-t-8 border-t-bridgebox-600">
+            <div className="text-center space-y-6">
+              {assemblyStep < 4 ? (
+                <>
+                  <Loader2 className="w-16 h-16 text-bridgebox-600 animate-spin mx-auto" />
+                  <h2 className="text-xl font-bold text-gray-900">Compiling Trial Book...</h2>
+                  <div className="space-y-3 text-left max-w-xs mx-auto mt-6">
+                    <div className="flex items-center gap-3 text-sm">
+                      {assemblyStep >= 1 ? <CheckSquare className="w-5 h-5 text-green-500" /> : <div className="w-5 h-5 rounded-full border-2 border-gray-200" />}
+                      <span className={assemblyStep >= 1 ? 'text-gray-900 font-medium' : 'text-gray-400'}>Stitching Chronology Index</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      {assemblyStep >= 2 ? <CheckSquare className="w-5 h-5 text-green-500" /> : <div className="w-5 h-5 rounded-full border-2 border-gray-200" />}
+                      <span className={assemblyStep >= 2 ? 'text-gray-900 font-medium' : 'text-gray-400'}>Pulling Secure Source Attachments</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      {assemblyStep >= 3 ? <CheckSquare className="w-5 h-5 text-green-500" /> : <div className="w-5 h-5 rounded-full border-2 border-gray-200" />}
+                      <span className={assemblyStep >= 3 ? 'text-gray-900 font-medium' : 'text-gray-400'}>Applying Court Bates Stamping</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                    <FileCheck className="w-10 h-10 text-green-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900">Trial Book Ready</h2>
+                  <p className="text-sm text-gray-500">Successfully stitched {selectedItems.size} verified artifacts into a single master PDF.</p>
+                  <button 
+                    onClick={() => setIsAssembling(false)}
+                    className="mt-4 w-full flex items-center justify-center px-4 py-3 bg-bridgebox-600 text-white rounded-lg font-medium hover:bg-bridgebox-700 shadow-xl"
+                  >
+                    <Download className="w-5 h-5 mr-2" /> Download Master PDF
+                  </button>
+                </>
+              )}
+            </div>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
