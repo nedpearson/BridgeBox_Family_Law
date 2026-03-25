@@ -54,7 +54,7 @@ export default function MatterCommandCenter() {
         </div>
         <div className="flex gap-2">
           <button onClick={() => navigate('/app/evidence')} className="px-4 py-2 border rounded-md text-sm font-medium bg-white hover:bg-gray-50">Upload Evidence</button>
-          <button className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800">Generate Report</button>
+          <button onClick={() => navigate(`/app/matter/${matter.id}/packet`)} className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800">Generate Report</button>
         </div>
       </div>
 

@@ -1,14 +1,15 @@
-
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './components/layout/AppLayout';
 import LandingPage from './pages/public/LandingPage';
 
-// Placeholder empty components for the modules
-const PortfolioDashboard = () => <div className="p-6">Portfolio Dashboard</div>;
-const MatterCommandCenter = () => <div className="p-6">Matter Command Center</div>;
-const EvidenceIntake = () => <div className="p-6">Evidence Intake</div>;
-const ChronologyEngine = () => <div className="p-6">Unified Chronology</div>;
-const FinancialForensics = () => <div className="p-6">Financial Forensics</div>;
+// Actual Component Imports
+import PortfolioDashboard from './pages/dashboard/PortfolioDashboard';
+import MatterCommandCenter from './pages/dashboard/MatterCommandCenter';
+import EvidenceIntake from './pages/evidence/EvidenceIntake';
+import ChronologyEngine from './pages/chronology/ChronologyEngine';
+import FinancialForensics from './pages/financials/FinancialForensics';
+import PacketBuilder from './pages/packet-builder/PacketBuilder';
+
 const Settings = () => <div className="p-6">Settings & Rules Engine</div>;
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route index element={<Navigate to="/app/portfolio" replace />} />
           <Route path="portfolio" element={<PortfolioDashboard />} />
           <Route path="matter/:id" element={<MatterCommandCenter />} />
+          <Route path="matter/:id/packet" element={<PacketBuilder />} />
           <Route path="evidence" element={<EvidenceIntake />} />
           <Route path="chronology" element={<ChronologyEngine />} />
           <Route path="financials" element={<FinancialForensics />} />
