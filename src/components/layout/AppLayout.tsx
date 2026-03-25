@@ -10,7 +10,9 @@ import {
   Share2,
   Search,
   Command,
-  X
+  X,
+  Calendar,
+  Users
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
@@ -20,6 +22,8 @@ const navigation = [
   { name: 'Requests', href: '/app/requests', icon: Share2 },
   { name: 'Chronology', href: '/app/chronology', icon: Clock },
   { name: 'Financials', href: '/app/financials', icon: DollarSign },
+  { name: 'Calendar', href: '/app/calendar', icon: Calendar },
+  { name: 'Experts', href: '/app/experts', icon: Users },
   { name: 'Settings', href: '/app/settings', icon: Settings },
 ];
 
