@@ -18,6 +18,7 @@ import FirmSettings from './pages/settings/FirmSettings';
 import FirmCalendar from './pages/calendar/FirmCalendar';
 import ExpertRoster from './pages/experts/ExpertRoster';
 import EvaluationEngine from './pages/evaluations/EvaluationEngine';
+import SuperAdminDashboard from './pages/admin/SuperAdminDashboard';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         {/* Authenticated App Routes */}
         <Route path="/app" element={<AppLayout />}>
           <Route index element={<Navigate to="/app/portfolio" replace />} />
+          <Route path="admin" element={<SuperAdminDashboard />} />
           <Route path="portfolio" element={<PortfolioDashboard />} />
           <Route path="matter/:id" element={<MatterCommandCenter />} />
           <Route path="matter/:id/packet" element={<PacketBuilder />} />

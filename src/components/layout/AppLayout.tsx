@@ -12,7 +12,8 @@ import {
   Command,
   X,
   Calendar,
-  Users
+  Users,
+  ShieldAlert
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
