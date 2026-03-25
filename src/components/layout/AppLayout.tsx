@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import CommandPalette from './CommandPalette';
 import AlertsPopover from './AlertsPopover';
 import CopilotDrawer from '../copilot/CopilotDrawer';
+import UserProfileMenu from './UserProfileMenu';
 import { 
   Building2, 
   Scale, 
@@ -85,16 +86,9 @@ export default function AppLayout() {
            </button>
         </div>
         
-        <div className="p-4 border-t">
-          <div className="flex items-center">
-            <div className="h-8 w-8 rounded-full bg-bridgebox-100 flex items-center justify-center">
-              <span className="text-sm font-medium text-bridgebox-700">NP</span>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-gray-700">Ned Pearson</p>
-              <p className="text-xs text-gray-500">Super Admin</p>
-            </div>
-          </div>
+        <div className="p-4">
+          {/* User Menu */}
+          <UserProfileMenu />
         </div>
       </div>
 
